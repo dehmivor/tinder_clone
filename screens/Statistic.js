@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,109 +6,65 @@ import {
   FlatList,
   Dimensions,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
-import StatisticCard from ".components/StatisticCard"; // Import the new StatisticCard component
+import StatisticCard from "./StatisticCard"; // Import the new StatisticCard component
 import StatisticModal from "./StatisticModal"; // Import the new StatisticModal component
 import { MaterialIcons } from "@expo/vector-icons";
-
-const imageUrl =
-  "https://th.bing.com/th?id=OIP.4akau9Zyzq-ioaE0S_YVrwHaHa&w=250&h=250&c=8&rs=1&qlt=90&r=0&o=6&dpr=1.4&pid=3.1&rm=2";
-
-const data = {
-  "Lượt Thích": [
-    {
-      id: "1",
-      name: "John Doe",
-      age: 30,
-      imageUrl,
-      intro: "I love hiking and outdoor activities.",
-      hobbies: "Hiking, Traveling",
-      mainInfo: "Software Engineer",
-    },
-    {
-      id: "2",
-      name: "Jane Smith",
-      age: 28,
-      imageUrl,
-      intro: "Avid reader and book collector.",
-      hobbies: "Reading, Writing",
-      mainInfo: "Graphic Designer",
-    },
-    {
-      id: "3",
-      name: "Alice Brown",
-      age: 35,
-      imageUrl,
-      intro: "Foodie and passionate cook.",
-      hobbies: "Cooking, Exploring",
-      mainInfo: "Chef",
-    },
-    {
-      id: "4",
-      name: "Bob Lee",
-      age: 40,
-      imageUrl,
-      intro: "Tech enthusiast and gamer.",
-      hobbies: "Gaming, Tech",
-      mainInfo: "IT Specialist",
-    },
-  ],
-  "Lượt Tuyển Chọn": [
-    {
-      id: "5",
-      name: "Chris Green",
-      age: 25,
-      imageUrl,
-      intro: "Fitness trainer and nutritionist.",
-      hobbies: "Fitness, Cooking",
-      mainInfo: "Personal Trainer",
-    },
-    {
-      id: "6",
-      name: "Lisa White",
-      age: 32,
-      imageUrl,
-      intro: "Travel blogger and photographer.",
-      hobbies: "Traveling, Photography",
-      mainInfo: "Blogger",
-    },
-    {
-      id: "7",
-      name: "Emma Black",
-      age: 29,
-      imageUrl,
-      intro: "Artist and painter.",
-      hobbies: "Painting, Art",
-      mainInfo: "Artist",
-    },
-    {
-      id: "8",
-      name: "Mark Blue",
-      age: 45,
-      imageUrl,
-      intro: "Music lover and composer.",
-      hobbies: "Music, Composing",
-      mainInfo: "Musician",
-    },
-  ],
-};
 
 const Statistic = () => {
   const [selectedTab, setSelectedTab] = useState("Lượt Thích");
   const [selectedCard, setSelectedCard] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const [data, setData] = useState([]); // State for storing data
+  const [loading, setLoading] = useState(true); // Loading state
+
+  // Fetch data from mock API
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://672220c52108960b9cc30434.mockapi.io/api/user"
+        );
+        const json = await response.json();
+        setData(json); // Set the fetched data
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false); // Stop loading once data is fetched
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleCardPress = (item) => {
     setSelectedCard(item);
     setModalVisible(true);
   };
 
+  // Filter data based on selected tab
+  const filteredData = data.filter((item) =>
+    selectedTab === "Lượt Thích" ? item.id <= "4" : item.id > "4"
+  );
+
+  // Loading Indicator
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="white" />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       {/* Header with Star Icon and Text */}
       <View style={styles.header}>
         <MaterialIcons name="star" size={28} color="gold" />
-        <Text style={styles.headerText}>Minh Tâm</Text>
+        <Text style={styles.headerText} numberOfLines={1}>
+          Minh Tâm
+        </Text>
       </View>
 
       {/* Tabs for Likes and Selections */}
@@ -122,6 +78,7 @@ const Statistic = () => {
               styles.tabText,
               selectedTab === "Lượt Thích" && styles.activeTabText,
             ]}
+            numberOfLines={1}
           >
             Lượt Thích
           </Text>
@@ -138,15 +95,16 @@ const Statistic = () => {
               styles.tabText,
               selectedTab === "Lượt Tuyển Chọn" && styles.activeTabText,
             ]}
+            numberOfLines={1}
           >
             Lượt Tuyển Chọn
           </Text>
         </TouchableOpacity>
       </View>
 
-      {/* Card List */}
+      {/* Card List - Make FlatList scrollable */}
       <FlatList
-        data={data[selectedTab]}
+        data={filteredData}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <StatisticCard
@@ -157,11 +115,10 @@ const Statistic = () => {
           />
         )}
         numColumns={2}
-        scrollEnabled={false}
+        // Remove scrollEnabled={false} to allow scrolling
         style={styles.cardList}
+        contentContainerStyle={styles.cardListContent} // Use this style for proper spacing
       />
-
-      <View style={styles.emptySpace} />
 
       {/* Modal for Card Details */}
       <StatisticModal
@@ -187,10 +144,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   headerText: {
-    fontSize: 24,
+    fontSize: 20, // Reduced font size
     color: "pink",
     fontWeight: "bold",
     marginLeft: 10,
+    maxWidth: width * 0.5, // Set a max width to prevent wrapping
   },
   tabContainer: {
     flexDirection: "row",
@@ -207,18 +165,24 @@ const styles = StyleSheet.create({
     borderBottomColor: "white",
   },
   tabText: {
-    fontSize: 16,
+    fontSize: 14, // Reduced font size
     color: "white",
+    maxWidth: "100%", // Set max width to prevent wrapping
   },
   activeTabText: {
-    fontSize: 20,
+    fontSize: 16, // Slightly larger for active tab
     fontWeight: "bold",
   },
   cardList: {
     paddingBottom: 20, // Maintain space at the bottom
   },
-  emptySpace: {
-    height: 20, // Maintain space at the bottom of the screen
+  cardListContent: {
+    paddingBottom: 20, // Adjust padding for card list content
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

@@ -7,6 +7,8 @@ import {
   ImageBackground,
   ScrollView,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 
 const StatisticModal = ({ visible, onClose, selectedCard }) => {
@@ -19,39 +21,41 @@ const StatisticModal = ({ visible, onClose, selectedCard }) => {
       transparent={true}
       onRequestClose={onClose}
     >
-      <View style={styles.modalContainer}>
-        <ScrollView contentContainerStyle={styles.modalContent}>
-          <ImageBackground
-            source={{ uri: selectedCard.imageUrl }}
-            style={styles.modalImage}
-            imageStyle={styles.cardImage}
-          >
-            <Text style={styles.modalName}>{selectedCard.name}</Text>
-            <Text style={styles.modalAge}>{selectedCard.age} tuổi</Text>
-          </ImageBackground>
-          <Text style={styles.modalSectionTitle}>Đang tìm kiếm gì:</Text>
-          <Text style={styles.modalText}>{selectedCard.intro}</Text>
-          <Text style={styles.modalSectionTitle}>Thông tin chính:</Text>
-          <Text style={styles.modalText}>{selectedCard.mainInfo}</Text>
-          <Text style={styles.modalSectionTitle}>Sở thích:</Text>
-          <Text style={styles.modalText}>{selectedCard.hobbies}</Text>
+      <TouchableWithoutFeedback onPress={onClose}>
+        <View style={styles.modalContainer}>
+          <ScrollView contentContainerStyle={styles.modalContent}>
+            <ImageBackground
+              source={{ uri: selectedCard.imageUrl }}
+              style={styles.modalImage}
+              imageStyle={styles.cardImage}
+            >
+              <Text style={styles.modalName}>{selectedCard.name}</Text>
+              <Text style={styles.modalAge}>{selectedCard.age} tuổi</Text>
+            </ImageBackground>
+            <Text style={styles.modalSectionTitle}>Đang tìm kiếm gì:</Text>
+            <Text style={styles.modalText}>{selectedCard.intro}</Text>
+            <Text style={styles.modalSectionTitle}>Thông tin chính:</Text>
+            <Text style={styles.modalText}>{selectedCard.mainInfo}</Text>
+            <Text style={styles.modalSectionTitle}>Sở thích:</Text>
+            <Text style={styles.modalText}>{selectedCard.hobbies}</Text>
 
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => alert("Đã chặn!")}
-            >
-              <Text style={styles.buttonText}>Chặn</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => alert("Đã báo cáo!")}
-            >
-              <Text style={styles.buttonText}>Báo cáo</Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-      </View>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => alert("Đã chặn!")}
+              >
+                <Text style={styles.buttonText}>Chặn</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => alert("Đã báo cáo!")}
+              >
+                <Text style={styles.buttonText}>Báo cáo</Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </View>
+      </TouchableWithoutFeedback>
     </Modal>
   );
 };
