@@ -23,7 +23,7 @@ const StackNavigator = () => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={"ProfileCard"}
+      initialRouteName={"Swipe"}
     >
       <>
         <Stack.Group>
