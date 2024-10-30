@@ -1,16 +1,16 @@
 import "react-native-gesture-handler";
 import React from "react";
-import StackNavigator from "./navigation/StackNavigator";
-import { NavigationContainer } from "@react-navigation/native";
 import { AuthProvider } from "./hooks/useAuth";
+import ProfileSetupNavigator from "./navigation/ProfileSetupNavigator"; // Đường dẫn tới file AppNavigator
+import { View } from "react-native";
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <AuthProvider>
-        <StackNavigator />
-      </AuthProvider>
-    </NavigationContainer>
+    <AuthProvider>
+      <View style={{ flex: 1 }}>
+        <ProfileSetupNavigator />
+      </View>
+    </AuthProvider>
   );
 };
 
