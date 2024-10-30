@@ -23,6 +23,12 @@ const Header = ({ title, callEnabled }) => {
           <Foundation name="telephone" size={20} color="red" />
         </TouchableOpacity>
       )}
+      <TouchableOpacity
+        style={tw.style("p-2")}
+        onPress={() => navigation.navigate("Notification")}
+      >
+        <Ionicons name="notifications-outline" size={34} color="#FF5864" />
+      </TouchableOpacity>
     </View>
   );
 };

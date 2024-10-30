@@ -10,7 +10,7 @@ import ChatScreen from "../screens/ChatScreen";
 import useAuth from "../hooks/useAuth";
 
 import MessageScreen from "../screens/MessageScreen";
-
+import NotificationScreen from "../screens/NotificationScreen";
 const Stack = createStackNavigator();
 
 const StackNavigator = () => {
@@ -27,6 +27,7 @@ const StackNavigator = () => {
         <Stack.Group>
           <Stack.Screen name="Chat" component={ChatScreen} />
           <Stack.Screen name="Message" component={MessageScreen} />
+          <Stack.Screen name="Notification" component={NotificationScreen} />
         </Stack.Group>
         <Stack.Group
           screenOptions={{
