@@ -7,7 +7,7 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
-import StatisticCard from "./StatisticCard"; // Import the new StatisticCard component
+import StatisticCard from ".components/StatisticCard"; // Import the new StatisticCard component
 import StatisticModal from "./StatisticModal"; // Import the new StatisticModal component
 import { MaterialIcons } from "@expo/vector-icons";
 
