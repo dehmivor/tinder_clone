@@ -7,6 +7,8 @@ import {
 
 import ChatScreen from "../screens/ChatScreen";
 
+import Swipe from "../screens/Swipe";
+import ProfileCard from "../screens/ProfileCard";
 import useAuth from "../hooks/useAuth";
 
 import MessageScreen from "../screens/MessageScreen";
@@ -21,12 +23,14 @@ const StackNavigator = () => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={"Chat"}
+      initialRouteName={"ProfileCard"}
     >
       <>
         <Stack.Group>
           <Stack.Screen name="Chat" component={ChatScreen} />
           <Stack.Screen name="Message" component={MessageScreen} />
+          <Stack.Screen name="Swipe" component={Swipe} />
+          <Stack.Screen name="ProfileCard" component={ProfileCard} />
         </Stack.Group>
         <Stack.Group
           screenOptions={{
