@@ -23,7 +23,9 @@
     "react-native": "0.74.5",
     "react-native-deck-swiper": "^2.0.17",
     "tailwind-rn": "^4.2.0",
-    "twrnc": "^4.5.1"
+    "twrnc": "^4.5.1",
+    "typescript": "~5.3.3",
+    "@types/react": "~18.2.79"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
