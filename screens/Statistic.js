@@ -5,9 +5,10 @@ import {
   StyleSheet,
   FlatList,
   Dimensions,
-  ImageBackground,
   TouchableOpacity,
 } from "react-native";
+import StatisticCard from "./StatisticCard"; // Import the new StatisticCard component
+import StatisticModal from "./StatisticModal"; // Import the new StatisticModal component
 import { MaterialIcons } from "@expo/vector-icons";
 
 const imageUrl =
@@ -15,43 +16,92 @@ const imageUrl =
 
 const data = {
   "Lượt Thích": [
-    { id: "1", name: "John Doe", age: 30, imageUrl },
-    { id: "2", name: "Jane Smith", age: 28, imageUrl },
-    { id: "3", name: "Alice Brown", age: 35, imageUrl },
-    { id: "4", name: "Bob Lee", age: 40, imageUrl },
+    {
+      id: "1",
+      name: "John Doe",
+      age: 30,
+      imageUrl,
+      intro: "I love hiking and outdoor activities.",
+      hobbies: "Hiking, Traveling",
+      mainInfo: "Software Engineer",
+    },
+    {
+      id: "2",
+      name: "Jane Smith",
+      age: 28,
+      imageUrl,
+      intro: "Avid reader and book collector.",
+      hobbies: "Reading, Writing",
+      mainInfo: "Graphic Designer",
+    },
+    {
+      id: "3",
+      name: "Alice Brown",
+      age: 35,
+      imageUrl,
+      intro: "Foodie and passionate cook.",
+      hobbies: "Cooking, Exploring",
+      mainInfo: "Chef",
+    },
+    {
+      id: "4",
+      name: "Bob Lee",
+      age: 40,
+      imageUrl,
+      intro: "Tech enthusiast and gamer.",
+      hobbies: "Gaming, Tech",
+      mainInfo: "IT Specialist",
+    },
   ],
   "Lượt Tuyển Chọn": [
-    { id: "5", name: "Chris Green", age: 25, imageUrl },
-    { id: "6", name: "Lisa White", age: 32, imageUrl },
-    { id: "7", name: "Emma Black", age: 29, imageUrl },
-    { id: "8", name: "Mark Blue", age: 45, imageUrl },
+    {
+      id: "5",
+      name: "Chris Green",
+      age: 25,
+      imageUrl,
+      intro: "Fitness trainer and nutritionist.",
+      hobbies: "Fitness, Cooking",
+      mainInfo: "Personal Trainer",
+    },
+    {
+      id: "6",
+      name: "Lisa White",
+      age: 32,
+      imageUrl,
+      intro: "Travel blogger and photographer.",
+      hobbies: "Traveling, Photography",
+      mainInfo: "Blogger",
+    },
+    {
+      id: "7",
+      name: "Emma Black",
+      age: 29,
+      imageUrl,
+      intro: "Artist and painter.",
+      hobbies: "Painting, Art",
+      mainInfo: "Artist",
+    },
+    {
+      id: "8",
+      name: "Mark Blue",
+      age: 45,
+      imageUrl,
+      intro: "Music lover and composer.",
+      hobbies: "Music, Composing",
+      mainInfo: "Musician",
+    },
   ],
 };
 
-const StatisticCard = ({ name, age, imageUrl }) => (
-  <View style={styles.cardContainer}>
-    <ImageBackground
-      source={{ uri: imageUrl }}
-      style={styles.card}
-      imageStyle={styles.cardImage}
-    >
-      <View style={styles.cardFooter}>
-        <Text style={styles.cardName}>{name}</Text>
-        <Text style={styles.cardAge}>{age} tuổi</Text>{" "}
-        {/* Changed this to a separate line for clarity */}
-        <MaterialIcons
-          name="star"
-          size={24}
-          color="gold"
-          style={styles.starIcon}
-        />
-      </View>
-    </ImageBackground>
-  </View>
-);
-
 const Statistic = () => {
   const [selectedTab, setSelectedTab] = useState("Lượt Thích");
+  const [selectedCard, setSelectedCard] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleCardPress = (item) => {
+    setSelectedCard(item);
+    setModalVisible(true);
+  };
 
   return (
     <View style={styles.container}>
@@ -61,10 +111,10 @@ const Statistic = () => {
         <Text style={styles.headerText}>Minh Tâm</Text>
       </View>
 
-      {/* Tab Bar */}
+      {/* Tabs for Likes and Selections */}
       <View style={styles.tabContainer}>
         <TouchableOpacity
-          style={styles.tab}
+          style={[styles.tab, selectedTab === "Lượt Thích" && styles.activeTab]}
           onPress={() => setSelectedTab("Lượt Thích")}
         >
           <Text
@@ -73,11 +123,14 @@ const Statistic = () => {
               selectedTab === "Lượt Thích" && styles.activeTabText,
             ]}
           >
-            Thích
+            Lượt Thích
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.tab}
+          style={[
+            styles.tab,
+            selectedTab === "Lượt Tuyển Chọn" && styles.activeTab,
+          ]}
           onPress={() => setSelectedTab("Lượt Tuyển Chọn")}
         >
           <Text
@@ -86,111 +139,83 @@ const Statistic = () => {
               selectedTab === "Lượt Tuyển Chọn" && styles.activeTabText,
             ]}
           >
-            Tuyển Chọn
+            Lượt Tuyển Chọn
           </Text>
         </TouchableOpacity>
       </View>
 
       {/* Card List */}
       <FlatList
-        data={data[selectedTab]} // Dynamically select data based on the tab
+        data={data[selectedTab]}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <StatisticCard
             name={item.name}
             age={item.age}
             imageUrl={item.imageUrl}
+            onPress={() => handleCardPress(item)}
           />
         )}
         numColumns={2}
-        scrollEnabled={false} // Disable scrolling to fit all cards on one screen
-        contentContainerStyle={styles.cardList}
+        scrollEnabled={false}
+        style={styles.cardList}
       />
 
-      {/* Empty View to maintain space at the bottom */}
       <View style={styles.emptySpace} />
+
+      {/* Modal for Card Details */}
+      <StatisticModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        selectedCard={selectedCard}
+      />
     </View>
   );
 };
 
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#000", // Black background
-    paddingBottom: 20, // Space at the bottom of the screen
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center", // Center the content horizontally
-    padding: 16,
+    justifyContent: "center",
+    marginTop: 20,
   },
   headerText: {
-    fontSize: 24, // Increased font size for header text
-    color: "pink", // Pink color for the text
-    fontWeight: "bold", // Bold text
-    marginLeft: 8, // Space between icon and text
+    fontSize: 24,
+    color: "pink",
+    fontWeight: "bold",
+    marginLeft: 10,
   },
   tabContainer: {
     flexDirection: "row",
-    justifyContent: "space-around",
-    backgroundColor: "#000", // Match the tab background with the container background
-    paddingVertical: 8, // Reduced padding for compact appearance
+    justifyContent: "center",
+    backgroundColor: "#000", // Match background color
   },
   tab: {
-    paddingVertical: 4,
-    paddingHorizontal: 12,
-    borderRadius: 20,
+    flex: 1,
+    padding: 10,
+    alignItems: "center",
+  },
+  activeTab: {
+    borderBottomWidth: 2,
+    borderBottomColor: "white",
   },
   tabText: {
-    fontSize: 18, // Increased font size for tab text
-    color: "#fff",
+    fontSize: 16,
+    color: "white",
   },
   activeTabText: {
-    fontSize: 20, // Even larger font size for active tab
-    fontWeight: "bold", // Make it bold
-    color: "#fff", // Keeping it white
+    fontSize: 20,
+    fontWeight: "bold",
   },
   cardList: {
-    paddingHorizontal: 8,
-    paddingTop: 16,
-  },
-  cardContainer: {
-    flex: 1, // Make the container flex to adapt to screen size
-    margin: 8,
-    borderRadius: 10,
-    overflow: "hidden",
-  },
-  card: {
-    width: "100%", // Use full width of the cardContainer
-    height: height / 3, // Ensure height is set to allow aspect ratio to maintain integrity
-    borderRadius: 10,
-    overflow: "hidden",
-    justifyContent: "flex-end", // Align footer to the bottom
-  },
-  cardImage: {
-    borderRadius: 10, // Rounded corners for the image
-  },
-  cardFooter: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent footer background
-  },
-  cardName: {
-    fontSize: 16, // Increased font size for name
-    color: "#fff", // White color for name
-  },
-  cardAge: {
-    fontSize: 14, // Font size for age
-    color: "yellow", // Yellow color for age
-  },
-  starIcon: {
-    marginLeft: "auto",
+    paddingBottom: 20, // Maintain space at the bottom
   },
   emptySpace: {
     height: 20, // Maintain space at the bottom of the screen
