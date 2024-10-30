@@ -59,11 +59,11 @@ export default function App() {
   };
 
   const onSwipedLeft = (cardIndex) => {
-    console.log(`You swiped left on card ${cardIndex}`);
+    console.log("You swiped left on card ${cardIndex}");
   };
 
   const onSwipedRight = (cardIndex) => {
-    console.log(`You swiped right on card ${cardIndex}`);
+    console.log("You swiped right on card ${cardIndex}");
   };
 
   return (
