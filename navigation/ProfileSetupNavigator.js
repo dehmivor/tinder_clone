@@ -21,7 +21,7 @@ import ChatScreen from "../screens/ChatScreen";
 import StatisticModal from "../screens/StatisticModal";
 import useAuth from "../hooks/useAuth";
 import MessageScreen from "../screens/MessageScreen";
-import DatingAppScreen from "../screens/SearchScreen/DatingAppScreen";
+import DatingAppScreen from "../screens/SearchScreen/SearchScreen";
 
 const Stack = createStackNavigator();
 
