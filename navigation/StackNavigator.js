@@ -1,16 +1,14 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
 import {
   createStackNavigator,
   TransitionPresets,
 } from "@react-navigation/stack";
+import React from "react";
 
 import ChatScreen from "../screens/ChatScreen";
 
-import Swipe from "../screens/Swipe";
-import Statistic from "../screens/Statistic";
-import StatisticModal from "../screens/StatisticModal";
 import useAuth from "../hooks/useAuth";
+import Statistic from "../screens/Statistic";
+import Swipe from "../screens/Swipe";
 
 import MessageScreen from "../screens/MessageScreen";
 
