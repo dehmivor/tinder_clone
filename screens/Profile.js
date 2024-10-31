@@ -9,8 +9,11 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient"; // Sử dụng expo-linear-gradient
 import { FontAwesome } from "@expo/vector-icons"; // Sử dụng icon từ thư viện FontAwesome
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const Profile = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -43,7 +46,7 @@ const Profile = () => {
 
       {/* User Info */}
       <View style={styles.userInfoContainer}>
-        <Text style={styles.userName}>Tâm, 20</Text>
+        <Text style={styles.userName}>John Doe, 20</Text>
         <FontAwesome name="refresh" size={24} color="white" />
       </View>
 
@@ -88,12 +91,41 @@ const Profile = () => {
       </View>
 
       {/* Bottom Navigation */}
-      <View style={styles.bottomNavigation}>
-        <FontAwesome name="fire" size={24} color="white" />
-        <FontAwesome name="th-large" size={24} color="white" />
-        <FontAwesome name="star" size={24} color="white" />
-        <FontAwesome name="comments" size={24} color="white" />
-        <FontAwesome name="user" size={24} color="white" />
+      <View style={styles.bottomNav}>
+        <TouchableOpacity
+          style={styles.navItem}
+          onPress={() => navigation.navigate("Home")}
+        >
+          <Ionicons name="flame" size={28} color="#FF4458" />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.navItem}
+          onPress={() => navigation.navigate("SearchScreen")}
+        >
+          <Ionicons name="grid" size={28} color="#909090" />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.navItem}>
+          <Ionicons name="diamond" size={28} color="#909090" />
+          <View style={styles.badgeCount}>
+            <Text style={styles.badgeText}>99+</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.navItem}
+          onPress={() => navigation.navigate("ChatScreen")}
+        >
+          <Ionicons name="chatbubbles" size={28} color="#909090" />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.navItem}
+          onPress={() => navigation.navigate("Profile")}
+        >
+          <Ionicons name="person" size={28} color="#909090" />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -222,6 +254,32 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     borderTopWidth: 1,
     borderTopColor: "#2f2f31",
+  },
+  bottomNav: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    height: 60,
+    borderTopWidth: 1,
+    borderTopColor: "#333",
+  },
+  navItem: {
+    position: "relative",
+    padding: 8,
+  },
+  badgeCount: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    backgroundColor: "#FFB800",
+    borderRadius: 10,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+  },
+  badgeText: {
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: "bold",
   },
 });
 

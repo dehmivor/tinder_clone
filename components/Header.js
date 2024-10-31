@@ -12,7 +12,7 @@ const Header = ({ title, callEnabled }) => {
       <View style={tw.style("flex flex-row items-center")}>
         <TouchableOpacity
           style={tw.style("p-2")}
-          onPress={() => navigation.navigate("Chat")}
+          onPress={() => navigation.navigate("Home")}
         >
           <Ionicons name="chevron-back-outline" size={34} color="#FF5864" />
         </TouchableOpacity>

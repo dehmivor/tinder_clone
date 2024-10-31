@@ -21,6 +21,7 @@ import ChatScreen from "../screens/ChatScreen";
 import StatisticModal from "../screens/StatisticModal";
 import useAuth from "../hooks/useAuth";
 import MessageScreen from "../screens/MessageScreen";
+import DatingAppScreen from "../screens/SearchScreen/DatingAppScreen";
 
 const Stack = createStackNavigator();
 
@@ -91,6 +92,31 @@ const AppNavigator = () => {
         <Stack.Screen
           name="ChatScreen"
           component={ChatScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Statistic"
+          component={DatingAppScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Settings"
+          component={Settings}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="StatisticModal"
+          component={StatisticModal}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="MessageScreen"
+          component={MessageScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

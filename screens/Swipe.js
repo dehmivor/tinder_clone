@@ -190,11 +190,17 @@ const Swipe = () => {
 
       {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity
+          style={styles.navItem}
+          onPress={() => navigation.navigate("Home")}
+        >
           <Ionicons name="flame" size={28} color="#FF4458" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity
+          style={styles.navItem}
+          onPress={() => navigation.navigate("SearchScreen")}
+        >
           <Ionicons name="grid" size={28} color="#909090" />
         </TouchableOpacity>
 
@@ -212,7 +218,10 @@ const Swipe = () => {
           <Ionicons name="chatbubbles" size={28} color="#909090" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity
+          style={styles.navItem}
+          onPress={() => navigation.navigate("Profile")}
+        >
           <Ionicons name="person" size={28} color="#909090" />
         </TouchableOpacity>
       </View>
