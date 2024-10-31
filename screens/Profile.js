@@ -15,7 +15,6 @@ const Profile = () => {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.time}>00:02</Text>
         <FontAwesome name="shield" size={24} color="white" />
         <FontAwesome name="gear" size={24} color="white" />
       </View>
@@ -102,6 +101,7 @@ const Profile = () => {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 40,
     flex: 1,
     backgroundColor: "#1c1c1e",
     padding: 16,

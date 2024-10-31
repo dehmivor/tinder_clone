@@ -84,13 +84,9 @@ const Swipe = () => {
 
       {/* Header */}
       <View style={styles.header}>
-        <Image
-          source={{
-            uri: "https://th.bing.com/th?q=Imafe+OD+Of&w=120&h=120&c=1&rs=1&qlt=90&cb=1&dpr=1.4&pid=InlineBlock&mkt=en-WW&cc=VN&setlang=en&adlt=strict&t=1&mw=247",
-          }}
-          style={styles.logo}
-          resizeMode="contain"
-        />
+        <View style={styles.boostButton}>
+          <Ionicons name="flame" size={28} color="#FF4458" />
+        </View>
         <View style={styles.headerRight}>
           <View style={styles.notificationDot}>
             <Ionicons name="notifications" size={24} color="#fff" />
@@ -226,7 +222,7 @@ const styles = StyleSheet.create({
   },
   swiperContainer: {
     flex: 1,
-    marginBottom: 70, // Add margin to prevent overlap with action buttons
+    marginBottom: 170, // Add margin to prevent overlap with action buttons
   },
   loadingText: {
     color: "#fff",

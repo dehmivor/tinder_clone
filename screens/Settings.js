@@ -17,7 +17,6 @@ const Settings = () => {
 
       {/* Header */}
       <View style={styles.statusBar}>
-        <Text style={styles.time}>00:02</Text>
         <View style={styles.statusIcons}>
           <View style={styles.signalWifi}>
             <View style={styles.batteryIcon}>
@@ -37,12 +36,9 @@ const Settings = () => {
       {/* Subscription Options */}
       <TouchableOpacity style={styles.subscriptionOption}>
         <View style={styles.tinderLogoContainer}>
-          <Image
-            source={{
-              uri: "https://th.bing.com/th/id/OIP.n4MUNbsG5SjMw1SqNW-wrwHaEK?w=288&h=182&c=7&r=0&o=5&dpr=1.4&pid=1.7",
-            }}
-            style={styles.tinderLogo}
-          />
+          <View style={styles.boostButton}>
+            <Ionicons name="flame" size={28} color="#fff" />
+          </View>
           <View style={styles.platinumBadge}>
             <Text style={styles.platinumText}>PLATINUM</Text>
           </View>
@@ -54,12 +50,9 @@ const Settings = () => {
 
       <TouchableOpacity style={styles.subscriptionOption}>
         <View style={styles.tinderLogoContainer}>
-          <Image
-            source={{
-              uri: "https://th.bing.com/th/id/OIP.n4MUNbsG5SjMw1SqNW-wrwHaEK?w=288&h=182&c=7&r=0&o=5&dpr=1.4&pid=1.7",
-            }}
-            style={styles.tinderLogo}
-          />
+          <View style={styles.boostButton}>
+            <Ionicons name="flame" size={28} color="#FFD700" />
+          </View>
           <View style={styles.goldBadge}>
             <Text style={styles.goldBadgeText}>GOLD</Text>
           </View>
@@ -71,12 +64,9 @@ const Settings = () => {
 
       <TouchableOpacity style={styles.subscriptionOption}>
         <View style={styles.tinderLogoContainer}>
-          <Image
-            source={{
-              uri: "https://th.bing.com/th/id/OIP.n4MUNbsG5SjMw1SqNW-wrwHaEK?w=288&h=182&c=7&r=0&o=5&dpr=1.4&pid=1.7",
-            }}
-            style={styles.tinderLogo}
-          />
+          <View style={styles.boostButton}>
+            <Ionicons name="flame" size={28} color="#FF4458" />
+          </View>
           <Text style={styles.plusText}>+</Text>
         </View>
         <Text style={styles.subscriptionDesc}>
