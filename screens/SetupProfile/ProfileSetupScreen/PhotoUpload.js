@@ -7,10 +7,10 @@ import {
     Image,
     SafeAreaView,
     ScrollView,
+    Alert, // Import Alert
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
 
 const PhotoUploadScreen = ({ navigation }) => {
     const [photos, setPhotos] = useState(Array(6).fill(null));
@@ -23,13 +23,10 @@ const PhotoUploadScreen = ({ navigation }) => {
         const segments = Array.from({ length: totalSteps }, (_, i) => (
             <View
                 key={i}
-                style={[
-                    styles.progressSegment,
-                    {
-                        width: `${100 / totalSteps}%`,
-                        backgroundColor: i < currentStep ? '#E91E63' : '#E0E0E0',
-                    },
-                ]}
+                style={[styles.progressSegment, {
+                    width: `${100 / totalSteps}%`,
+                    backgroundColor: i < currentStep ? '#E91E63' : '#E0E0E0',
+                }]}
             />
         ));
 
@@ -57,12 +54,43 @@ const PhotoUploadScreen = ({ navigation }) => {
         }
     };
 
+    // Handle long press to delete photo
+    const handleLongPress = (index) => {
+        // Kiểm tra xem ảnh đã được tải lên hay chưa
+        if (photos[index]) {
+            Alert.alert(
+                "Xoá ảnh",
+                "Bạn có chắc chắn muốn xoá ảnh này không?",
+                [
+                    {
+                        text: "Huỷ",
+                        onPress: () => {},
+                        style: "cancel"
+                    },
+                    {
+                        text: "Xoá",
+                        onPress: () => deletePhoto(index),
+                        style: "destructive"
+                    }
+                ]
+            );
+        }
+    };
+
+    // Delete the selected photo
+    const deletePhoto = (index) => {
+        const newPhotos = [...photos];
+        newPhotos[index] = null; // Clear the photo
+        setPhotos(newPhotos);
+    };
+
     // Render each photo slot
     const renderPhotoSlot = (index) => (
         <TouchableOpacity
             key={index}
             style={styles.photoSlot}
             onPress={() => pickImage(index)}
+            onLongPress={() => handleLongPress(index)} // Add long press handler
         >
             {photos[index] ? (
                 <Image source={{ uri: photos[index] }} style={styles.photo} />
@@ -87,7 +115,6 @@ const PhotoUploadScreen = ({ navigation }) => {
             {renderProgressBar()}
 
             <View style={styles.content}>
-
                 <View style={styles.header}>
                     <TouchableOpacity
                         style={styles.backButton}
