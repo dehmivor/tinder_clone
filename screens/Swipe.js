@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from "react";
 import {
-  StyleSheet,
-  Text,
   View,
+  Text,
+  StyleSheet,
   Image,
-  ActivityIndicator,
+  SafeAreaView,
   TouchableOpacity,
+  StatusBar,
+  Dimensions,
 } from "react-native";
 import Swiper from "react-native-deck-swiper";
-import { Ionicons, FontAwesome, MaterialIcons } from "@expo/vector-icons"; // Import icons from expo vector icons
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
-export default function App() {
+const SCREEN_HEIGHT = Dimensions.get("window").height;
+const SCREEN_WIDTH = Dimensions.get("window").width;
+
+const Swipe = () => {
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
+  const swiperRef = React.useRef(null);
 
-  // Fetch data from the API
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,64 +38,82 @@ export default function App() {
     fetchData();
   }, []);
 
+  const handleSwipe = (direction, cardIndex) => {
+    console.log(`Swiped ${direction} on card ${cardIndex}`);
+  };
+
   const renderCard = (card) => {
+    if (!card) return null;
+
     return (
-      <View style={styles.card}>
-        {/* Main Image */}
+      <View style={styles.cardContainer}>
         <Image
           source={{ uri: card.avatar }}
           style={styles.cardImage}
-          resizeMode="cover" // Ensure the image covers the card
-          onError={(error) =>
-            console.error("Image load error: ", error.nativeEvent.error)
-          }
+          resizeMode="cover"
         />
 
-        {/* Text Container */}
-        <View style={styles.textContainer}>
-          <Text style={styles.cardText}>
-            {card.name}, {card.age}
-          </Text>
-          <Text style={styles.bio}>{card.describe}</Text>
-          <Text style={styles.social}>Social: {card.social}</Text>
+        <View style={styles.cardInfo}>
+          <View style={styles.activeStatus}>
+            <Text style={styles.activeText}>Active recently</Text>
+          </View>
+
+          <View style={styles.userInfo}>
+            <Text style={styles.userName}>
+              {card.name}, {card.age}
+            </Text>
+            <Text style={styles.userBio}>{card.describe}</Text>
+            <Text style={styles.userInstagram}>Social: {card.social}</Text>
+          </View>
         </View>
       </View>
     );
   };
 
-  const onSwipedLeft = (cardIndex) => {
-    console.log("You swiped left on card ${cardIndex}");
-  };
-
-  const onSwipedRight = (cardIndex) => {
-    console.log("You swiped right on card ${cardIndex}");
-  };
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.loadingText}>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
-    <View style={styles.container}>
-      {/* Top Row with Icons and Yellow Text */}
-      <View style={styles.topRow}>
-        <Ionicons name="home" size={24} color="white" />
-        <Text style={styles.yellowText}>My App</Text>
-        <MaterialIcons name="notifications" size={24} color="white" />
-        <TouchableOpacity>
-          <Ionicons name="settings" size={24} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <FontAwesome name="heart" size={24} color="white" />
-        </TouchableOpacity>
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" />
+
+      {/* Header */}
+      <View style={styles.header}>
+        <Image
+          source={{
+            uri: "https://th.bing.com/th?q=Imafe+OD+Of&w=120&h=120&c=1&rs=1&qlt=90&cb=1&dpr=1.4&pid=InlineBlock&mkt=en-WW&cc=VN&setlang=en&adlt=strict&t=1&mw=247",
+          }}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+        <View style={styles.headerRight}>
+          <View style={styles.notificationDot}>
+            <Ionicons name="notifications" size={24} color="#fff" />
+            <View style={styles.dot} />
+          </View>
+          <MaterialCommunityIcons name="tune-variant" size={24} color="#fff" />
+          <View style={styles.boostButton}>
+            <Ionicons name="flash" size={24} color="#fff" />
+          </View>
+        </View>
       </View>
 
-      {loading ? (
-        <ActivityIndicator size="large" color="#ffffff" />
-      ) : (
+      {/* Swiper */}
+      <View style={styles.swiperContainer}>
         <Swiper
+          ref={swiperRef}
           cards={cards}
           renderCard={renderCard}
-          onSwipedLeft={onSwipedLeft}
-          onSwipedRight={onSwipedRight}
+          onSwipedLeft={(cardIndex) => handleSwipe("left", cardIndex)}
+          onSwipedRight={(cardIndex) => handleSwipe("right", cardIndex)}
+          onSwipedTop={(cardIndex) => handleSwipe("up", cardIndex)}
           cardIndex={0}
-          backgroundColor={"#000000"} // Set the background of the Swiper to black
+          backgroundColor="transparent"
           stackSize={3}
           stackSeparation={15}
           overlayLabels={{
@@ -98,11 +121,9 @@ export default function App() {
               title: "NOPE",
               style: {
                 label: {
-                  backgroundColor: "red",
-                  borderColor: "red",
-                  color: "white",
+                  backgroundColor: "#FF4458",
+                  color: "#fff",
                   fontSize: 24,
-                  padding: 10,
                 },
                 wrapper: {
                   flexDirection: "column",
@@ -117,11 +138,9 @@ export default function App() {
               title: "LIKE",
               style: {
                 label: {
-                  backgroundColor: "green",
-                  borderColor: "green",
-                  color: "white",
+                  backgroundColor: "#00FF7F",
+                  color: "#fff",
                   fontSize: 24,
-                  padding: 10,
                 },
                 wrapper: {
                   flexDirection: "column",
@@ -134,91 +153,210 @@ export default function App() {
             },
           }}
         />
-      )}
-
-      {/* Icons at the Bottom */}
-      <View style={styles.iconContainer}>
-        <Ionicons name="home" size={24} color="white" />
-        <FontAwesome name="user" size={24} color="white" />
-        <MaterialIcons name="favorite" size={24} color="white" />
-        <Ionicons name="settings" size={24} color="white" />
-        <FontAwesome name="info-circle" size={24} color="white" />
       </View>
-    </View>
+
+      {/* Action Buttons */}
+      <View style={styles.actionButtons}>
+        <TouchableOpacity
+          style={[styles.actionButton, styles.rewindButton]}
+          onPress={() => swiperRef.current.swipeBack()}
+        >
+          <Ionicons name="refresh" size={24} color="#f0f0f0" />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.actionButton, styles.nopeButton]}
+          onPress={() => swiperRef.current.swipeLeft()}
+        >
+          <Ionicons name="close" size={32} color="#FF4458" />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.actionButton, styles.superlikeButton]}
+          onPress={() => swiperRef.current.swipeTop()}
+        >
+          <Ionicons name="star" size={24} color="#00D4FF" />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.actionButton, styles.likeButton]}
+          onPress={() => swiperRef.current.swipeRight()}
+        >
+          <Ionicons name="heart" size={24} color="#00FF7F" />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={[styles.actionButton, styles.boostButton]}>
+          <Ionicons name="send" size={24} color="#00B8FF" />
+        </TouchableOpacity>
+      </View>
+
+      {/* Bottom Navigation */}
+      <View style={styles.bottomNav}>
+        <TouchableOpacity style={styles.navItem}>
+          <Ionicons name="flame" size={28} color="#FF4458" />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.navItem}>
+          <Ionicons name="grid" size={28} color="#909090" />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.navItem}>
+          <Ionicons name="diamond" size={28} color="#909090" />
+          <View style={styles.badgeCount}>
+            <Text style={styles.badgeText}>99+</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.navItem}>
+          <Ionicons name="chatbubbles" size={28} color="#909090" />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.navItem}>
+          <Ionicons name="person" size={28} color="#909090" />
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000000", // Set the background to black
-    justifyContent: "flex-start", // Align items to the top of the container
-    alignItems: "center",
+    backgroundColor: "#000",
   },
-  topRow: {
-    position: "absolute", // Positioning the top row absolutely
-    top: 0, // Align to the top of the container
+  swiperContainer: {
+    flex: 1,
+    marginBottom: 70, // Add margin to prevent overlap with action buttons
+  },
+  loadingText: {
+    color: "#fff",
+    fontSize: 18,
+    textAlign: "center",
+    marginTop: 20,
+  },
+  header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    width: "100%", // Full width for the top row
-    padding: 10,
-    backgroundColor: "rgba(0, 0, 0, 0.8)", // Optional background for better visibility
-    zIndex: 10, // Ensure the top row is above other elements
+    paddingHorizontal: 16,
+    height: 60,
   },
-  yellowText: {
-    color: "yellow",
-    fontSize: 20,
-    fontWeight: "bold",
+  logo: {
+    width: 100,
+    height: 30,
   },
-  card: {
-    flex: 1,
+  headerRight: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 20,
+  },
+  notificationDot: {
+    position: "relative",
+  },
+  dot: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    width: 8,
+    height: 8,
+    backgroundColor: "#FF4458",
+    borderRadius: 4,
+  },
+  cardContainer: {
+    height: SCREEN_HEIGHT - 300, // Reduce height to prevent overlap
     borderRadius: 10,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 1 },
-    shadowRadius: 8,
-    justifyContent: "flex-end", // Align content to the bottom of the card
-    alignItems: "flex-start", // Align items to the left
-    backgroundColor: "transparent", // Make the card background transparent
+    overflow: "hidden",
+    marginHorizontal: 10, // Add horizontal margin
   },
   cardImage: {
-    width: "100%", // Cover the full width of the card
-    height: "100%", // Cover the full height of the card
-    position: "absolute", // Position image absolutely within the card
-    top: 0,
+    width: "100%",
+    height: "100%",
+  },
+  cardInfo: {
+    position: "absolute",
+    bottom: 0,
     left: 0,
-    borderRadius: 10,
+    right: 0,
+    padding: 16,
+    backgroundColor: "rgba(0,0,0,0.5)",
   },
-  textContainer: {
-    position: "absolute", // Position the text container absolutely
-    bottom: 20, // Position it at the top of the card
-    left: 20, // Align it to the left
-    zIndex: 1, // Ensure the text is above the image
+  activeStatus: {
+    backgroundColor: "rgba(0,0,0,0.6)",
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+    alignSelf: "flex-start",
   },
-  cardText: {
-    fontSize: 22,
+  activeText: {
+    color: "#fff",
+    fontSize: 14,
+  },
+  userInfo: {
+    marginTop: 8,
+  },
+  userName: {
+    color: "#fff",
+    fontSize: 26,
     fontWeight: "bold",
-    color: "white", // Change text color to white for visibility
   },
-  bio: {
+  userBio: {
+    color: "#fff",
     fontSize: 16,
-    color: "white",
-    marginVertical: 2,
+    marginTop: 4,
   },
-  social: {
-    fontSize: 16,
-    color: "gray",
-    marginVertical: 2,
+  userInstagram: {
+    color: "#fff",
+    fontSize: 14,
+    marginTop: 4,
   },
-  iconContainer: {
-    position: "absolute", // Position icons absolutely at the bottom
-    bottom: 10, // Align it to the bottom of the screen
+  actionButtons: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    paddingVertical: 10,
+  },
+  actionButton: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  bottomNav: {
     flexDirection: "row",
     justifyContent: "space-around",
-    width: "100%", // Ensure icons stretch across the bottom
-    paddingVertical: 10,
-    backgroundColor: "rgba(0, 0, 0, 0.8)", // Optional background for better visibility
-    zIndex: 10, // Ensure the icon container is above the cards
+    alignItems: "center",
+    height: 60,
+    borderTopWidth: 1,
+    borderTopColor: "#333",
+  },
+  navItem: {
+    position: "relative",
+    padding: 8,
+  },
+  badgeCount: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    backgroundColor: "#FFB800",
+    borderRadius: 10,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+  },
+  badgeText: {
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: "bold",
   },
 });
+
+export default Swipe;
