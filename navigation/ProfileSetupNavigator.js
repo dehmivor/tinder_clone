@@ -14,7 +14,7 @@ import InterestSelectionScreen from "../screens/SetupProfile/ProfileSetupScreen/
 import PhotoUploadScreen from "../screens/SetupProfile/ProfileSetupScreen/PhotoUpload"; // Đường dẫn tới file OrientationScreen
 import LocationPermissionScreen from "../screens/SetupProfile/ProfileSetupScreen/LocationPermission"; // Đường dẫn tới file OrientationScreen
 import Statistic from "../screens/Statistic";
-import Swipe from "../screens/Swipe";
+import Home from "../screens/Swipe";
 import Settings from "../screens/Settings";
 import Profile from "../screens/Profile";
 import ChatScreen from "../screens/ChatScreen";
@@ -30,7 +30,7 @@ const AppNavigator = () => {
       <Stack.Navigator initialRouteName="FirstPage">
         <Stack.Screen
           name="FirstPage"
-          component={Profile}
+          component={FirstPage}
           options={{ headerShown: false }} // Ẩn header nếu cần
         />
         <Stack.Screen
@@ -81,6 +81,16 @@ const AppNavigator = () => {
         <Stack.Screen
           name="LocationPermissionScreen"
           component={LocationPermissionScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ChatScreen"
+          component={ChatScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

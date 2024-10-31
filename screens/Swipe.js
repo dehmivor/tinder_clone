@@ -10,6 +10,7 @@ import {
   Dimensions,
 } from "react-native";
 import Swiper from "react-native-deck-swiper";
+import { useNavigation } from "@react-navigation/native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -17,6 +18,7 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const Swipe = () => {
   const [cards, setCards] = useState([]);
+  const navigation = useNavigation();
   const [loading, setLoading] = useState(true);
   const swiperRef = React.useRef(null);
 
@@ -203,7 +205,10 @@ const Swipe = () => {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity
+          style={styles.navItem}
+          onPress={() => navigation.navigate("ChatScreen")}
+        >
           <Ionicons name="chatbubbles" size={28} color="#909090" />
         </TouchableOpacity>
 
