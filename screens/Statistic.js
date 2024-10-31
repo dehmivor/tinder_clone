@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import StatisticCard from "./StatisticCard"; // Import the new StatisticCard component
+import StatisticCard from "../components/StatisticCard"; // Import the new StatisticCard component
 import StatisticModal from "./StatisticModal"; // Import the new StatisticModal component
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -63,7 +63,7 @@ const Statistic = () => {
       <View style={styles.header}>
         <MaterialIcons name="star" size={28} color="gold" />
         <Text style={styles.headerText} numberOfLines={1}>
-          Minh Tâm
+          Tinder
         </Text>
       </View>
 
@@ -141,11 +141,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 20,
+    marginTop: 70,
   },
   headerText: {
     fontSize: 20, // Reduced font size
-    color: "pink",
+    color: "#D93D55",
     fontWeight: "bold",
     marginLeft: 10,
     maxWidth: width * 0.5, // Set a max width to prevent wrapping
