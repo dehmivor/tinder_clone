@@ -26,7 +26,7 @@ const ChatRow = ({ matchDetails }) => {
   useEffect(() => {
     onSnapshot(
       query(
-        collection(db, "matches", matchDetails.id, "messages"),
+        collection(db, "matches", matchDetails.id, "MessageScreen"),
         orderBy("timestamp", "desc"),
         limit(1)
       ),
@@ -39,7 +39,7 @@ const ChatRow = ({ matchDetails }) => {
       style={tw.style(
         "flex-row items-center py-3 px-5 bg-white mx-3 my-1 rounded-lg shadow-lg"
       )}
-      onPress={() => navigation.navigate("Message", { matchDetails })}
+      onPress={() => navigation.navigate("MessageScreen", { matchDetails })}
     >
       <Image
         style={tw.style("rounded-full h-16 w-16 mr-4")}

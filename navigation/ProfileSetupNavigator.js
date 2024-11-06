@@ -21,17 +21,17 @@ import ChatScreen from "../screens/ChatScreen";
 import StatisticModal from "../screens/StatisticModal";
 import useAuth from "../hooks/useAuth";
 import MessageScreen from "../screens/MessageScreen";
-import DatingAppScreen from "../screens/SearchScreen/SearchScreen/DatingAppScreen";
+import SearchScreen from "../screens/SearchScreen/SearchScreen";
 
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="FirstPage">
+      <Stack.Navigator initialRouteName="Statistic">
         <Stack.Screen
-          name="FirstPage"
-          component={FirstPage}
+          name="Statistic"
+          component={Statistic}
           options={{ headerShown: false }} // Ẩn header nếu cần
         />
         <Stack.Screen
@@ -95,8 +95,8 @@ const AppNavigator = () => {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="Statistic"
-          component={DatingAppScreen}
+          name="SearchScreen"
+          component={SearchScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
